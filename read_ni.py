@@ -49,12 +49,6 @@ def ask_user():
     running = False
 
 
-def cfg_read_task(acquisition):  # uses above parameters
-    acquisition.ai_channels.add_ai_voltage_chan("Dev2/ai0:5")  # has to match with chans_in
-    acquisition.timing.cfg_samp_clk_timing(rate=sampling_freq_in, sample_mode=constants.AcquisitionType.CONTINUOUS,
-                                           samps_per_chan=buffer_in_size_cfg)
-
-
 def reading_task_callback(task_idx, event_type, num_samples, callback_data):  # bufsize_callback is passed to num_samples
     global data
     global buffer_in
@@ -103,7 +97,10 @@ def start_acquisition():
     time_start=time.time()
     # Configure and setup the tasks
     task_in = nidaqmx.Task()
-    cfg_read_task(task_in)
+    task_in.ai_channels.add_ai_voltage_chan("Dev2/ai0:5")  # has to match with chans_in
+    task_in.timing.cfg_samp_clk_timing(rate=sampling_freq_in, 
+                                       sample_mode=constants.AcquisitionType.CONTINUOUS,
+                                       samps_per_chan=buffer_in_size_cfg)
     stream_in = AnalogMultiChannelReader(task_in.in_stream)
     task_in.register_every_n_samples_acquired_into_buffer_event(bufsize_callback, reading_task_callback)
 
