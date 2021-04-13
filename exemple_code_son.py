@@ -1,733 +1,329 @@
-Microsoft Windows [version 10.0.18363.1440]
-(c) 2019 Microsoft Corporation. Tous droits r‚serv‚s.
-
-C:\Program Files\Sublime Text 3>git
-'git' n'est pas reconnu en tant que commande interne
-ou externe, un programme ex‚cutable ou un fichier de commandes.
-
-C:\Program Files\Sublime Text 3>git
-#############
-## RESTART ##
-#############
-Microsoft Windows [version 10.0.18363.1440]
-(c) 2019 Microsoft Corporation. Tous droits r‚serv‚s.
-
-C:\Program Files\Sublime Text 3>git
-usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]
-           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
-           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
-           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
-           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
-           <command> [<args>]
-
-These are common Git commands used in various situations:
-
-start a working area (see also: git help tutorial)
-   clone             Clone a repository into a new directory
-   init              Create an empty Git repository or reinitialize an existing one
-
-work on the current change (see also: git help everyday)
-   add               Add file contents to the index
-   mv                Move or rename a file, a directory, or a symlink
-   restore           Restore working tree files
-   rm                Remove files from the working tree and from the index
-   sparse-checkout   Initialize and modify the sparse-checkout
-
-examine the history and state (see also: git help revisions)
-   bisect            Use binary search to find the commit that introduced a bug
-   diff              Show changes between commits, commit and working tree, etc
-   grep              Print lines matching a pattern
-   log               Show commit logs
-   show              Show various types of objects
-   status            Show the working tree status
-
-grow, mark and tweak your common history
-   branch            List, create, or delete branches
-   commit            Record changes to the repository
-   merge             Join two or more development histories together
-   rebase            Reapply commits on top of another base tip
-   reset             Reset current HEAD to the specified state
-   switch            Switch branches
-   tag               Create, list, delete or verify a tag object signed with GPG
-
-collaborate (see also: git help workflows)
-   fetch             Download objects and refs from another repository
-   pull              Fetch from and integrate with another repository or a local branch
-   push              Update remote refs along with associated objects
-
-'git help -a' and 'git help -g' list available subcommands and some
-concept guides. See 'git help <command>' or 'git help <concept>'
-to read about a specific subcommand or concept.
-See 'git help git' for an overview of the system.
-
-C:\Program Files\Sublime Text 3>git status
-fatal: not a git repository (or any of the parent directories): .git
-
-C:\Program Files\Sublime Text 3>E:
-
-E:\>cd WORK/DO
-
-E:\WORK\DO>cd [Quentin] tapis
-Le chemin d'accŠs sp‚cifi‚ est introuvable.
-
-E:\WORK\DO>ls
-'ls' n'est pas reconnu en tant que commande interne
-ou externe, un programme ex‚cutable ou un fichier de commandes.
-
-E:\WORK\DO>dir
- Le volume dans le lecteur E s'appelle DATA
- Le num‚ro de s‚rie du volume est EAC1-F643
-
- R‚pertoire de E:\WORK\DO
-
-20/11/2020  11:20    <DIR>          .
-20/11/2020  11:20    <DIR>          ..
-15/01/2020  18:31    <DIR>          2017
-15/01/2020  19:04    <DIR>          2018
-09/04/2021  10:07    <DIR>          2020
-               0 fichier(s)                0 octets
-               5 R‚p(s)  356ÿ155ÿ269ÿ120 octets libres
-
-E:\WORK\DO>cd 2020
-
-E:\WORK\DO\2020>cd [Quentin] tapis
-
-E:\WORK\DO\2020\[Quentin] tapis>git init
-Initialized empty Git repository in E:/WORK/DO/2020/[Quentin] tapis/.git/
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch master
-
-No commits yet
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	read_ni.py
-	schema.png
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis>git config --global user.name "JJ Aucouturier"
-
-E:\WORK\DO\2020\[Quentin] tapis>git config --global user.email "aucouturier@gmail.com"
-
-E:\WORK\DO\2020\[Quentin] tapis>git config --global color.ui auto
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch master
-
-No commits yet
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	read_ni.py
-	schema.png
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis>git remote add origin https://github.com/creamlab/treadmill.git
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch master
-
-No commits yet
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	read_ni.py
-	schema.png
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis>git add read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch master
-
-No commits yet
-
-Changes to be committed:
-  (use "git rm --cached <file>..." to unstage)
-	new file:   read_ni.py
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	schema.png
-
-
-E:\WORK\DO\2020\[Quentin] tapis>git commit -m "new file read_ni.py"
-[master (root-commit) d7ff0d5] new file read_ni.py
- 1 file changed, 194 insertions(+)
- create mode 100644 read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis>git push -u origin
-fatal: The current branch master has no upstream branch.
-To push the current branch and set the remote as upstream, use
-
-    git push --set-upstream origin master
-
-
-E:\WORK\DO\2020\[Quentin] tapis>git push -u origin master
-
-Exception non gérée : System.ComponentModel.Win32Exception: Handle de fenêtre non valide
-   à MS.Win32.ManagedWndProcTracker.HookUpDefWindowProc(IntPtr hwnd)
-   à MS.Win32.ManagedWndProcTracker.OnAppDomainProcessExit()
-   à MS.Internal.ShutDownListener.HandleShutDown(Object sender, EventArgs e)
-
-***Repl Killed***
-
-#############
-## RESTART ##
-#############
-Microsoft Windows [version 10.0.18363.1440]
-(c) 2019 Microsoft Corporation. Tous droits r‚serv‚s.
-
-C:\Program Files\Sublime Text 
-Le chemin d'accŠs sp‚cifi‚ est introuvable.
-
-C:\Program Files\Sublime Text 3>
-C:\Program Files\Sublime Text 3>
-C:\Program Files\Sublime Text 3>E:
-
-E:\>cd WORK/DO/2020/[Quentin] tapis
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch master
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	schema.png
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis>git add read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis>git push
-fatal: The current branch master has no upstream branch.
-To push the current branch and set the remote as upstream, use
-
-    git push --set-upstream origin master
-
-
-E:\WORK\DO\2020\[Quentin] tapis>git push origin master
-remote: 
-remote: Create a pull request for 'master' on GitHub by visiting:        
-remote:      https://github.com/creamlab/treadmill/pull/new/master        
-remote: 
-To https://github.com/creamlab/treadmill.git
- * [new branch]      master -> master
-
-E:\WORK\DO\2020\[Quentin] tapis>git remote -v
-origin	https://github.com/creamlab/treadmill.git (fetch)
-origin	https://github.com/creamlab/treadmill.git (push)
-
-E:\WORK\DO\2020\[Quentin] tapis>git branches -all 
-git: 'branches' is not a git command. See 'git --help'.
-
-E:\WORK\DO\2020\[Quentin] tapis>git branch -all
-error: did you mean `--all` (with two dashes)?
-
-E:\WORK\DO\2020\[Quentin] tapis>git branch --all
-* master
-  remotes/origin/master
-
-E:\WORK\DO\2020\[Quentin] tapis>git push origin main
-error: src refspec main does not match any
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-
-E:\WORK\DO\2020\[Quentin] tapis>git branch -m master main
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch main
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	schema.png
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis>git branch --all
-* main
-  remotes/origin/master
-
-E:\WORK\DO\2020\[Quentin] tapis>git push -u origin main 
-To https://github.com/creamlab/treadmill.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-
-E:\WORK\DO\2020\[Quentin] tapis>git pull
-From https://github.com/creamlab/treadmill
- * [new branch]      main       -> origin/main
-There is no tracking information for the current branch.
-Please specify which branch you want to merge with.
-See git-pull(1) for details.
-
-    git pull <remote> <branch>
-
-If you wish to set tracking information for this branch you can do so with:
-
-    git branch --set-upstream-to=origin/<branch> main
-
-
-E:\WORK\DO\2020\[Quentin] tapis>git push -u origin main
-To https://github.com/creamlab/treadmill.git
- ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-hint: Updates were rejected because the tip of your current branch is behind
-hint: its remote counterpart. Integrate the remote changes (e.g.
-hint: 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-
-E:\WORK\DO\2020\[Quentin] tapis>git push -u origin main main
-error: dst ref refs/heads/main receives from more than one src
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-
-E:\WORK\DO\2020\[Quentin] tapis>git push origin --delete master
-To https://github.com/creamlab/treadmill.git
- - [deleted]         master
-
-E:\WORK\DO\2020\[Quentin] tapis>git push -u origin main main
-error: dst ref refs/heads/main receives from more than one src
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-
-E:\WORK\DO\2020\[Quentin] tapis>git push -u origin main
-To https://github.com/creamlab/treadmill.git
- ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-hint: Updates were rejected because the tip of your current branch is behind
-hint: its remote counterpart. Integrate the remote changes (e.g.
-hint: 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-
-E:\WORK\DO\2020\[Quentin] tapis>git pull
-There is no tracking information for the current branch.
-Please specify which branch you want to merge with.
-See git-pull(1) for details.
-
-    git pull <remote> <branch>
-
-If you wish to set tracking information for this branch you can do so with:
-
-    git branch --set-upstream-to=origin/<branch> main
-
-
-E:\WORK\DO\2020\[Quentin] tapis>git pull main main
-fatal: 'main' does not appear to be a git repository
-fatal: Could not read from remote repository.
-
-Please make sure you have the correct access rights
-and the repository exists.
-
-E:\WORK\DO\2020\[Quentin] tapis>git pull origin/main main
-fatal: 'origin/main' does not appear to be a git repository
-fatal: Could not read from remote repository.
-
-Please make sure you have the correct access rights
-and the repository exists.
-
-E:\WORK\DO\2020\[Quentin] tapis>git pull origin main
-From https://github.com/creamlab/treadmill
- * branch            main       -> FETCH_HEAD
-fatal: refusing to merge unrelated histories
-
-E:\WORK\DO\2020\[Quentin] tapis>git fetch origin main
-From https://github.com/creamlab/treadmill
- * branch            main       -> FETCH_HEAD
-
-E:\WORK\DO\2020\[Quentin] tapis>git merge origin main
-merge: origin - not something we can merge
-
-E:\WORK\DO\2020\[Quentin] tapis>git merge main
-Already up to date.
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch main
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	schema.png
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis>git show commit
-fatal: ambiguous argument 'commit': unknown revision or path not in the working tree.
-Use '--' to separate paths from revisions, like this:
-'git <command> [<revision>...] -- [<file>...]'
-
-E:\WORK\DO\2020\[Quentin] tapis>git log
-commit d7ff0d55e459c5e7533d362b1b39fa401943c715
-Author: JJ Aucouturier <aucouturier@gmail.com>
-Date:   Fri Apr 9 10:39:56 2021 +0200
-
-    new file read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis>git branch --set-upstream-to=origin/main main
-Branch 'main' set up to track remote branch 'main' from 'origin'.
-
-E:\WORK\DO\2020\[Quentin] tapis>
-E:\WORK\DO\2020\[Quentin] tapis>git pull
-fatal: refusing to merge unrelated histories
-
-E:\WORK\DO\2020\[Quentin] tapis>git clone https://github.com/creamlab/treadmill.git
-Cloning into 'treadmill'...
-
-E:\WORK\DO\2020\[Quentin] tapis>git add read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch main
-Your branch and 'origin/main' have diverged,
-and have 1 and 1 different commits each, respectively.
-  (use "git pull" to merge the remote branch into yours)
-
-Changes to be committed:
-  (use "git restore --staged <file>..." to unstage)
-	deleted:    read_ni.py
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	schema.png
-	treadmill/
-
-
-E:\WORK\DO\2020\[Quentin] tapis>git pull
-fatal: refusing to merge unrelated histories
-
-E:\WORK\DO\2020\[Quentin] tapis>git commit -m "added read_ni.py"
-[main b1ef66b] added read_ni.py
- 1 file changed, 194 deletions(-)
- delete mode 100644 read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis>git push
-To https://github.com/creamlab/treadmill.git
- ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-hint: Updates were rejected because the tip of your current branch is behind
-hint: its remote counterpart. Integrate the remote changes (e.g.
-hint: 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-
-E:\WORK\DO\2020\[Quentin] tapis>git status
-On branch main
-Your branch and 'origin/main' have diverged,
-and have 2 and 1 different commits each, respectively.
-  (use "git pull" to merge the remote branch into yours)
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	leo walking/
-	schema.png
-	treadmill/
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis>git branch add-first-file
-
-E:\WORK\DO\2020\[Quentin] tapis>git add read_ni.py
-fatal: pathspec 'read_ni.py' did not match any files
-
-E:\WORK\DO\2020\[Quentin] tapis>cd treadmill
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git add read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git commit -m "added first file"
-[main f229252] added first file
- 1 file changed, 194 insertions(+)
- create mode 100644 read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git push -u origin add-first-file
-error: src refspec add-first-file does not match any
-error: failed to push some refs to 'https://github.com/creamlab/treadmill.git'
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git checkout add-first-file
-error: pathspec 'add-first-file' did not match any file(s) known to git
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git branch -all
-error: did you mean `--all` (with two dashes)?
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git branch --all
-* main
-  remotes/origin/HEAD -> origin/main
-  remotes/origin/main
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git branch add-first-file
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git checkout add-first-file
-Switched to branch 'add-first-file'
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git add read_ni.py
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git commit -m "added first file"
-On branch add-first-file
-nothing to commit, working tree clean
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git push -u origin add-first-file
-remote: 
-remote: Create a pull request for 'add-first-file' on GitHub by visiting:        
-remote:      https://github.com/creamlab/treadmill/pull/new/add-first-file        
-remote: 
-Branch 'add-first-file' set up to track remote branch 'add-first-file' from 'origin'.
-To https://github.com/creamlab/treadmill.git
- * [new branch]      add-first-file -> add-first-file
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git merge --help
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git checkout main
-Your branch is ahead of 'origin/main' by 1 commit.
-  (use "git push" to publish your local commits)
-Switched to branch 'main'
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git merge add-first-file
-Already up to date.
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-On branch main
-Your branch is ahead of 'origin/main' by 1 commit.
-  (use "git push" to publish your local commits)
-
-nothing to commit, working tree clean
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git push -u origin
-Branch 'main' set up to track remote branch 'main' from 'origin'.
-To https://github.com/creamlab/treadmill.git
-   edf2d06..f229252  main -> main
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git branch -d add-first-file
-Deleted branch add-first-file (was f229252).
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git pull -u origin
-error: unknown switch `u'
-usage: git pull [<options>] [<repository> [<refspec>...]]
-
-    -v, --verbose         be more verbose
-    -q, --quiet           be more quiet
-    --progress            force progress reporting
-    --recurse-submodules[=<on-demand>]
-                          control for recursive fetching of submodules
-
-Options related to merging
-    -r, --rebase[=(false|true|merges|preserve|interactive)]
-                          incorporate changes by rebasing rather than merging
-    -n                    do not show a diffstat at the end of the merge
-    --stat                show a diffstat at the end of the merge
-    --log[=<n>]           add (at most <n>) entries from shortlog to merge commit message
-    --signoff[=...]       add a Signed-off-by trailer
-    --squash              create a single commit instead of doing a merge
-    --commit              perform a commit if the merge succeeds (default)
-    --edit                edit message before committing
-    --cleanup <mode>      how to strip spaces and #comments from message
-    --ff                  allow fast-forward
-    --ff-only             abort if fast-forward is not possible
-    --verify-signatures   verify that the named commit has a valid GPG signature
-    --autostash           automatically stash/stash pop before and after
-    -s, --strategy <strategy>
-                          merge strategy to use
-    -X, --strategy-option <option=value>
-                          option for selected merge strategy
-    -S, --gpg-sign[=<key-id>]
-                          GPG sign commit
-    --allow-unrelated-histories
-                          allow merging unrelated histories
-
-Options related to fetching
-    --all                 fetch from all remotes
-    -a, --append          append to .git/FETCH_HEAD instead of overwriting
-    --upload-pack <path>  path to upload pack on remote end
-    -f, --force           force overwrite of local branch
-    -t, --tags            fetch all tags and associated objects
-    -p, --prune           prune remote-tracking branches no longer on remote
-    -j, --jobs[=<n>]      number of submodules pulled in parallel
-    --dry-run             dry run
-    -k, --keep            keep downloaded pack
-    --depth <depth>       deepen history of shallow clone
-    --shallow-since <time>
-                          deepen history of shallow repository based on time
-    --shallow-exclude <revision>
-                          deepen history of shallow clone, excluding rev
-    --deepen <n>          deepen history of shallow clone
-    --unshallow           convert to a complete repository
-    --update-shallow      accept refs that update .git/shallow
-    --refmap <refmap>     specify fetch refmap
-    -o, --server-option <server-specific>
-                          option to transmit
-    -4, --ipv4            use IPv4 addresses only
-    -6, --ipv6            use IPv6 addresses only
-    --negotiation-tip <revision>
-                          report that we have only objects reachable from this object
-    --show-forced-updates
-                          check for forced-updates on all updated branches
-    --set-upstream        set upstream for git pull/fetch
-
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-nothing to commit, working tree clean
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git pull
-Already up to date.
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git branch add-start-control
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git checkout add-start-control
-Switched to branch 'add-start-control'
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>pip install tkinter
-ERROR: Could not find a version that satisfies the requirement tkinter (from versions: none)
-ERROR: No matching distribution found for tkinter
-WARNING: You are using pip version 20.2.3; however, version 21.0.1 is available.
-You should consider upgrading via the 'c:\users\aucouturier\appdata\local\programs\python\python36\python.exe -m pip install --upgrade pip' command.
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-On branch add-start-control
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	timer.py
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git checkout main
-Your branch is up to date with 'origin/main'.
-Switched to branch 'main'
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	timer.py
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git checkout add-start-control
-Switched to branch 'add-start-control'
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git reflog
-f229252 HEAD@{0}: checkout: moving from main to add-start-control
-f229252 HEAD@{1}: checkout: moving from add-start-control to main
-f229252 HEAD@{2}: checkout: moving from main to add-start-control
-f229252 HEAD@{3}: checkout: moving from add-first-file to main
-f229252 HEAD@{4}: checkout: moving from main to add-first-file
-f229252 HEAD@{5}: commit: added first file
-edf2d06 HEAD@{6}: clone: from https://github.com/creamlab/treadmill.git
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git pull 
-From https://github.com/creamlab/treadmill
-   f229252..14bb35b  main       -> origin/main
-There is no tracking information for the current branch.
-Please specify which branch you want to merge with.
-See git-pull(1) for details.
-
-    git pull <remote> <branch>
-
-If you wish to set tracking information for this branch you can do so with:
-
-    git branch --set-upstream-to=origin/<branch> add-start-control
-
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git checkout main
-Your branch is behind 'origin/main' by 1 commit, and can be fast-forwarded.
-  (use "git pull" to update your local branch)
-Switched to branch 'main'
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git pull
-Updating f229252..14bb35b
-Fast-forward
- read_ni.py | 268 +++++++++++++++++--------------------------------------------
- 1 file changed, 74 insertions(+), 194 deletions(-)
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git pull
-From https://github.com/creamlab/treadmill
-   14bb35b..b43f688  main       -> origin/main
-Updating 14bb35b..b43f688
-Fast-forward
- read_ni.py | 297 ++++++++++++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 223 insertions(+), 74 deletions(-)
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-	modified:   read_ni.py
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	timer.py
-
-no changes added to commit (use "git add" and/or "git commit -a")
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git add read_ni.py 
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git commit -m "Removed useless cong_read_task function"
-[main f3a17eb] Removed useless cong_read_task function
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git push -u origin
-Branch 'main' set up to track remote branch 'main' from 'origin'.
-To https://github.com/creamlab/treadmill.git
-   b43f688..f3a17eb  main -> main
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-#############
-## RESTART ##
-#############
-Microsoft Windows [version 10.0.18363.1440]
-(c) 2019 Microsoft Corporation. Tous droits r‚serv‚s.
-
-C:\Program Files\Sublime Text 3>E
-'E' n'est pas reconnu en tant que commande interne
-ou externe, un programme ex‚cutable ou un fichier de commandes.
-
-C:\Program Files\Sublime Text 3>E:
-
-E:\>cd WORK/DO/2020/[Quentin] tapis
-
-E:\WORK\DO\2020\[Quentin] tapis>cd treadmill
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	timer.py
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	timer.py
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git pull
-From https://github.com/creamlab/treadmill
-   f3a17eb..6528a91  main       -> origin/main
-Updating f3a17eb..6528a91
-Fast-forward
- Launcher.py           | 42 +++++++++++++++++++++++++
- module_acquisition.py | 86 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 128 insertions(+)
- create mode 100644 Launcher.py
- create mode 100644 module_acquisition.py
-
-E:\WORK\DO\2020\[Quentin] tapis\treadmill>git
+# coding=utf-8
+import time
+import sys
+import os
+import glob
+import csv
+import codecs
+import datetime
+import random
+from psychopy import prefs
+prefs.general['audioLib'] = ['pyo']
+from psychopy import visual,event,core,gui
+from fractions import Fraction
+import pyaudio
+import wave
+import scipy.io.wavfile as wav
+import numpy as np
+
+def get_stim_info(file_name, folder):
+# read stimulus information stored in same folder as file_name, with a .txt extension
+# returns a list of values    
+    info_file_name = os.path.join(folder, os.path.splitext(os.path.basename(file_name))[0]+'.txt')
+    info = []
+    with open(info_file_name,'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            info.append(row)
+    return info
+
+def enblock(x, n_stims):
+    # generator to cut a list of stims into blocks of n_stims
+    # returns all complete blocks
+    for i in range(len(x)//n_stims):
+        start = n_stims*i
+        end = n_stims*(i+1)
+        yield x[start:end]
+    
+def generate_trial_files(subject_number=1,n_blocks=7,n_stims=100):
+# generates n_block trial files per subject
+# each block contains n_stim trials, randomized from folder which name is inferred from subject_number
+# returns an array of n_block file names
+    seed = time.getTime()
+    random.seed(seed)
+    
+    stim_folder = "sounds/Subj"+str(subject_number)
+    sound_files = [os.path.basename(x) for x in glob.glob(stim_folder+"/*.wav")]
+
+    print(len(sound_files))
+
+    first_half = sound_files[:int(len(sound_files)/2)]
+    second_half = sound_files[int(len(sound_files)/2):]
+    # trials consist of two random files, one from the first half, and one from the second half of the stimulus list
+    # write trials by blocks of n_stims
+    block_count = 0
+    trial_files = []
+    for block_stims in enblock(list(zip(first_half, second_half)),n_stims):
+        trial_file = 'trials/trials_subj' + str(subject_number) + '_' + str(block_count) + '_' + date.strftime('%y%m%d_%H.%M')+'.csv'
+        print("generate trial file "+trial_file)
+        trial_files.append(trial_file)
+        with open(trial_file, 'w+', newline='') as file :
+            # each trial is stored as a row in a csv file, with format: 
+            # StimA,MeanA,PA1,PA2,PA3,PA4,PA5,PA6,PA7,StimB,MeanB,PB1,PB2,PB3,PB4,PB5,PB6,PB7
+            # where Mean and P1...P7 are CLEESE parameters found in .txt files stored alongside de .wav stims
+            # write header
+            writer = csv.writer(file)
+            writer.writerow(["StimA","StimB"])
+            # write each trial in block
+            for trial_stims in block_stims:   
+                writer.writerow(trial_stims)
+        # break when enough blocks
+        block_count += 1
+        if block_count >= n_blocks:
+            break
+
+    return trial_files
+
+def generate_practice_trial_file(subject_number=1, n_practice_trials = 3):
+# generates one file of practice trials
+# the block contains a fixed nb of trials, selected randomly from the real trials
+# returns one file_name
+    
+    seed = time.getTime()
+    random.seed(seed)
+    stim_folder = "sounds/Subj"+str(subject_number)
+    sound_files = [os.path.basename(x) for x in glob.glob(stim_folder+"/*.wav")]
+    random.shuffle(sound_files)
+    first_half = sound_files[:int(len(sound_files)/2)]
+    second_half = sound_files[int(len(sound_files)/2):]
+    
+    # each trial is stored as a row in a csv file, with format: StimA,StimB
+    trial_file = 'trials/trials_subj' + str(subject_number) + '_PRACTICE_' + date.strftime('%y%m%d_%H.%M')+'.csv'
+    with open(trial_file, 'w+', newline='') as file :
+        # write header
+        writer = csv.writer(file)
+        writer.writerow(["StimA","StimB"])
+        # write n_practice_trials
+        for trial_stims in list(zip(first_half, second_half))[:n_practice_trials]:   
+            writer.writerow(trial_stims)
+    return trial_file
+
+def read_trials(trial_file): 
+# read all trials in a block of trial, stored as a CSV trial file
+    with open(trial_file, 'r') as fid :
+        reader = csv.reader(fid)
+        trials = list(reader)
+    return trials[1::] #trim header
+
+def generate_result_file(subject_number):
+
+    result_file = 'results/results_subj'+str(subject_number)+'_'+date.strftime('%y%m%d_%H.%M')+'.csv'        
+    result_headers = ['subj','session','trial','block','sex','age','date','stim','stim_order', 'filter','filter_freq','filter_gain','response','rt']
+    with open(result_file, 'w+') as file:
+        writer = csv.writer(file)
+        writer.writerow(result_headers)
+    return result_file
+
+def show_text_and_wait(file_name = None, message = None):
+    event.clearEvents()
+    if message is None:
+        #with codecs.open (file_name, "r", "utf-8") as file :
+        with open (file_name, "r") as file :
+            message = file.read()
+    text_object = visual.TextStim(win, text = message, color = 'black')
+    text_object.height = 0.1
+    text_object.draw()
+    win.flip()
+    while True :
+        if len(event.getKeys()) > 0: 
+            core.wait(0.2)
+            break
+        event.clearEvents()
+        core.wait(0.2)
+        text_object.draw()
+        win.flip()
+
+def show_text(file_name = None, message = None):
+    if message is None:
+        #with codecs.open (file_name, "r", "utf-8") as file :
+        with open (file_name, "r") as file :
+            message = file.read()
+    text_object = visual.TextStim(win, text = message, color = 'black')
+    text_object.height = 0.1
+    text_object.draw()
+    win.flip()
+
+def update_trial_gui(): 
+    play_instruction.draw()
+    play_icon.draw()
+    response_instruction.draw()
+    play_icon.draw()
+    for response_label in response_labels: response_label.draw()
+    for response_checkbox in response_checkboxes: response_checkbox.draw()
+    win.flip()
+
+def get_false_feedback(min,max):
+# returns a random percentage (int) between min and max percent
+# min, max: integers between 0 and 100
+    return int(100*random.uniform(float(min)/100, float(max)/100))
+
+def play_sound(sound):
+        #play sound
+        audio = pyaudio.PyAudio()
+#        sr,wave = wav.read(fileName)
+        wf = wave.open(sound)
+        def play_audio_callback(in_data, frame_count, time_info,status):
+            data = wf.readframes(frame_count)
+            return (data, pyaudio.paContinue)
+        #define data stream for playing audio and start it
+        output_stream = audio.open(format   = audio.get_format_from_width(wf.getsampwidth())
+                             , channels     = wf.getnchannels()
+                             , rate         = wf.getframerate()
+                             , output       = True
+                             , stream_callback = play_audio_callback
+                        )
+        output_stream.start_stream()
+        while output_stream.is_active():
+            core.wait(0.01)
+            continue 
+
+
+###########################################################################################
+###      DEFINE HOW MANY TRIALS IN HOW MANY BLOCKS 
+###      NOTE: if repeat_for_internal_noise, the last block is automatically repeated, 
+### 	 i.e. the total nb of blocks is n_block + 1
+###########################################################################################
+
+n_blocks = 5
+n_stims = 50
+repeat_for_internal_noise = 1
+n_practice_trials = 3
+
+###########################################################################################
+
+img_path = 'images/'
+sound_path = 'sounds/'
+
+# get participant nr, age, sex 
+subject_info = {u'Number':1, u'Age':20, u'Sex': u'f/m', 'Session':1}
+dlg = gui.DlgFromDict(subject_info, title=u'REVCOR')
+if dlg.OK:
+    subject_number = subject_info[u'Number']
+    subject_age = subject_info[u'Age']
+    subject_sex = subject_info[u'Sex']
+    subject_session = subject_info[u'Session']    
+else:
+    core.quit() #the user hit cancel so exit
+date = datetime.datetime.now()
+time = core.Clock()
+
+# create stimuli if folder don't exist
+# warning: if folder exists with wrong number of stims
+output_folder = sound_path + 'Subj' + str(subject_number)
+if not os.path.exists(output_folder):
+    assert("Can't find stimulus folder: "+output_folder)
+	# generate_stimuli(subject_number, n_blocks=n_blocks, n_stims=n_stims, base_sound='./sounds/male_vraiment_flat.wav', config_file='./config.py')
+
+win = visual.Window([1366,768],fullscr=False,color="lightgray", units='norm')
+screen_ratio = (float(win.size[1])/float(win.size[0]))
+isi = .5
+
+# trial gui
+question = 'Quelle prononciation est la plus souriante ?'
+response_options = ['[g] voix 1','[h] voix 2']
+response_keys = ['g', 'h']
+label_size = 0.1
+play_instruction = visual.TextStim(win, units='norm', text='[Space] Voix 1 & 2', color='red', height=label_size, pos=(0,0.5))
+response_instruction = visual.TextStim(win, units='norm', text=question, color='black', height=label_size, pos=(0,0.1), alignHoriz='center')
+play_icon = visual.ImageStim(win, image=img_path+'play_off.png', units='norm', size = (0.15*screen_ratio,0.15), pos=(0,0.5+2*label_size))
+response_labels = []
+response_checkboxes = []
+reponse_ypos = -0.2
+reponse_xpos = -0.1
+label_spacing = abs(-0.8 - reponse_ypos)/(len(response_options)+1)
+for index, response_option in enumerate(response_options):
+    y = reponse_ypos - label_spacing * index
+    response_labels.append(visual.TextStim(win, units = 'norm', text=response_option, alignHoriz='left', height=label_size, color='black', pos=(reponse_xpos,y)))
+    response_checkboxes.append(visual.ImageStim(win, image=img_path+'rb_off.png', size=(label_size*screen_ratio,label_size), units='norm', pos=(reponse_xpos-label_size, y-label_size*.05)))
+
+# generate data files
+result_file = generate_result_file(subject_number)
+trial_files = generate_trial_files(subject_number,n_blocks,n_stims)
+# add practice block in first positio
+practice_file = generate_practice_trial_file(subject_number, n_practice_trials)
+trial_files.insert(0, practice_file)
+# duplicate last block (for internal noise computation)
+if repeat_for_internal_noise:
+	trial_files.append(trial_files[-1])
+
+# experiment 
+show_text_and_wait(file_name="intro.txt")  
+show_text_and_wait(file_name="practice.txt")  
+trial_count = 0
+n_blocks = len(trial_files)
+for block_count, trial_file in enumerate(trial_files):
+    block_trials = read_trials(trial_file)
+    for trial in block_trials :
+        # focus play instruction and reset checkboxes
+        play_instruction.setColor('red')
+        play_icon.setImage(img_path+'play_on.png')
+        for checkbox in response_checkboxes:
+            checkbox.setImage(img_path+'rb_off.png')
+        sound_1 = sound_path+'Subj'+str(subject_number)+'/'+trial[0]
+        sound_2 = sound_path+'Subj'+str(subject_number)+'/'+trial[1]
+        end_trial = False
+        while (not end_trial):
+            update_trial_gui()
+            # upon play command...
+            if event.waitKeys()==['space']: 
+                # unfocus play instruction
+                play_instruction.setColor('black')
+                play_icon.setImage(img_path+'play_off.png')
+                update_trial_gui()
+                # play sounds
+                play_sound(sound_1)
+                core.wait(isi)
+                play_sound(sound_2)
+                # focus response instruction
+                response_start = time.getTime()
+                response_instruction.setColor('red')
+                update_trial_gui()
+                # upon key response...
+                response_key = event.waitKeys(keyList=response_keys)
+                response_time = time.getTime() - response_start
+                # unfocus response_instruction, select checkbox
+                response_instruction.setColor('black')
+                response_checkboxes[response_keys.index(response_key[0])].setImage(img_path+'rb_on.png')
+                update_trial_gui()
+                # blank screen and end trial
+                core.wait(0.3) 
+                win.flip()
+                core.wait(0.2) 
+                end_trial = True
+        
+        # log response
+        row = [subject_number, subject_session, trial_count, block_count, subject_sex, subject_age, date]
+        if response_key == ['g']:
+            response_choice = 0
+        elif response_key == ['h']:
+            response_choice = 1
+        
+        with open(result_file, 'a') as file :
+            writer = csv.writer(file,lineterminator='\n')
+            for stim_order,stim in enumerate(trial): 
+            	filters = get_stim_info(folder=sound_path+'Subj'+str(subject_number), file_name=stim)
+            	for filter_counter, filter_info in enumerate(filters):
+            		result = row + [stim,stim_order,filter_counter,filter_info[0],filter_info[1],response_choice==stim_order,round(response_time,3)]
+            		writer.writerow(result)
+
+        trial_count += 1
+        
+    # inform end of practice at the end of first block
+    if block_count == 0:
+       show_text_and_wait(file_name="end_practice.txt") 
+       practice_block = False 
+    # pause at the end of subsequent blocks 
+    elif block_count < n_blocks-1: 
+        show_text_and_wait(message = "Vous avez fait "+str(Fraction(block_count, n_blocks-1))+u" de l'experience.\n Votre score sur cette partie de l'experience est de "+ str(get_false_feedback(70,85)) +u"%.\n\n (Appuyez sur une touche pour continuer).")
+        show_text("pause1.txt")
+        core.wait(5)
+        show_text_and_wait("pause0.txt")         
+        
+        
+#End of experiment
+show_text_and_wait("end.txt")
+
+# Close Python
+win.close()
+core.quit()
+sys.exit()
