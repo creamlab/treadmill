@@ -26,7 +26,7 @@ data_samples=mo.data_acquisitor(entry,date)
 
 def start():
 	global button_Start
-	data_samples.start_acquisition()
+	data_samples.start_acquisition(entry.get())
 
 def stop():
 	global button_Stop

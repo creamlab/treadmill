@@ -22,6 +22,7 @@ class data_acquisitor:
 		self.running=False
 		self.entry=entry
 		self.date=date
+		self.dev="dev1/ai0:5"
 
 	def ask_user(self):
 		input("Acquisition starting")
@@ -29,39 +30,32 @@ class data_acquisitor:
 
 
 	def reading_task_callback(self,task_idx, event_type, num_samples, callback_data):  # bufsize_callback is passed to num_samples
-		global time_start
-		global compteur
-		global temps_de_lancement
+		global callback_counter
 
 		if self.running:
 			# It may be wiser to read slightly more than num_samples here, to make sure one does not miss any sample,
 			# see: https://documentation.help/NI-DAQmx-Key-Concepts/contCAcqGen.html
 			self.buffer_in = np.zeros((self.chans_in, num_samples))  # double definition ???
 			stream_in.read_many_sample(self.buffer_in, num_samples, timeout=constants.WAIT_INFINITELY)
-			with open("treadmill_"+str(self.entry.get())+'_'+str(self.date)+".txt","a") as file:
-				current_time=time.time()
-				if compteur==0:
-					temps_de_lancement=current_time-time_start
-					for i in range(len(self.buffer_in[0])):
-						file.write(str(temps_de_lancement+i)+','+str(self.buffer_in[0][i])+','+str(self.buffer_in[1][i])+','+str(self.buffer_in[2][i])+','+str(self.buffer_in[3][i])+','+str(self.buffer_in[4][i])+','+str(self.buffer_in[5][i])+'\n')
-				else :
-					for i in range(len(self.buffer_in[0])):
-						file.write(str(temps_de_lancement+i+100*compteur)+','+str(self.buffer_in[0][i])+','+str(self.buffer_in[1][i])+','+str(self.buffer_in[2][i])+','+str(self.buffer_in[3][i])+','+str(self.buffer_in[4][i])+','+str(self.buffer_in[5][i])+'\n')
-				compteur+=1
+			with open("data/treadmill_"+self.entry+'_'+str(self.date)+".txt","a") as file:
+				for i in range(len(self.buffer_in[0])):
+					file.write(str(self.current_time+i*1000/self.sampling_freq_in+self.buffer_in_size*callback_counter*1000/self.sampling_freq_in)+','+str(self.buffer_in[0][i])+','+str(self.buffer_in[1][i])+','+str(self.buffer_in[2][i])+','+str(self.buffer_in[3][i])+','+str(self.buffer_in[4][i])+','+str(self.buffer_in[5][i])+'\n')
+				callback_counter+=1
 
 		return 0  # Absolutely needed for this callback to be well defined (see nidaqmx doc).
 
-	def start_acquisition(self):
+	def start_acquisition(self,entry):
 		global stream_in
 		global task_in
 		global time_start
-		global compteur
+		global callback_counter
+		self.entry=entry
 
 		time_start=time.time()
-		compteur=0
+		callback_counter=0
 		# Configure and setup the tasks
 		task_in = nidaqmx.Task()
-		task_in.ai_channels.add_ai_voltage_chan("Dev2/ai0:5")  # has to match with chans_in
+		task_in.ai_channels.add_ai_voltage_chan(self.dev)  # has to match with chans_in
 		task_in.timing.cfg_samp_clk_timing(rate=self.sampling_freq_in, 
 									   sample_mode=constants.AcquisitionType.CONTINUOUS,
 									   samps_per_chan=self.buffer_in_size_cfg)
@@ -71,12 +65,14 @@ class data_acquisitor:
 
 		# Start threading to prompt user to stop
 		thread_user = threading.Thread(target=self.ask_user)
+
 		thread_user.start()
 
 
 		# Main loop
 		self.running = True
 		# time_start = datetime.now()
+		self.current_time=time_start-time.time()
 		task_in.start()
 
 	def stop_acquisition(self):
