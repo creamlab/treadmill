@@ -33,19 +33,30 @@ class data_acquisitor:
 		global callback_counter
 
 		if self.running:
-			# It may be wiser to read slightly more than num_samples here, to make sure one does not miss any sample,
-			# see: https://documentation.help/NI-DAQmx-Key-Concepts/contCAcqGen.html
-			self.buffer_in = np.zeros((self.chans_in, num_samples))  # double definition ???
-			stream_in.read_many_sample(self.buffer_in, num_samples, timeout=constants.WAIT_INFINITELY)
-			with open("data/treadmill_"+self.entry+'_'+str(self.date)+".txt","a") as file:
-				for i in range(len(self.buffer_in[0])):
-					file.write(str(self.current_time+i*1000/self.sampling_freq_in+self.buffer_in_size*callback_counter*1000/self.sampling_freq_in)+','+str(self.buffer_in[0][i])+','+str(self.buffer_in[1][i])+','+str(self.buffer_in[2][i])+','+str(self.buffer_in[3][i])+','+str(self.buffer_in[4][i])+','+str(self.buffer_in[5][i])+'\n')
-				callback_counter+=1
+			
+			# get buffer data
+			buffer_in = np.zeros((self.chans_in, num_samples)) 
+			self.stream_in.read_many_sample(buffer_in,
+								 num_samples, 
+								 timeout=constants.WAIT_INFINITELY)
+			buffer_time = self.current_time + self.buffer_in_size*callback_counter*1000/self.sampling_freq_in # start time of the ith buffer, in ms
+				
+			# write in file
+			result_file = "data/treadmill_"+self.entry+'_'+str(self.date)+".csv"
+			with open(result_file, 'a') as file :
+				writer = csv.writer(file,lineterminator='\n')
+				for n_sample in range(num_samples):
+					time_in_buffer = n_sample*1000/self.sampling_freq_in # time offset of the n_sample sample in current buffer
+					result = [buffer_time + time_in_buffer] # time stamp of current sample
+					for channel_buffer in buffer_in: 
+						result += [channel_buffer[n_sample]] # each channel of the current sample
+					writer.writerow(result)
 
-		return 0  # Absolutely needed for this callback to be well defined (see nidaqmx doc).
+			callback_counter+=1
+
+		return 0  
 
 	def start_acquisition(self,entry):
-		global stream_in
 		global task_in
 		global time_start
 		global callback_counter
@@ -59,7 +70,7 @@ class data_acquisitor:
 		task_in.timing.cfg_samp_clk_timing(rate=self.sampling_freq_in, 
 									   sample_mode=constants.AcquisitionType.CONTINUOUS,
 									   samps_per_chan=self.buffer_in_size_cfg)
-		stream_in = AnalogMultiChannelReader(task_in.in_stream)
+		self.stream_in = AnalogMultiChannelReader(task_in.in_stream)
 		task_in.register_every_n_samples_acquired_into_buffer_event(self.bufsize_callback, self.reading_task_callback)
 
 
