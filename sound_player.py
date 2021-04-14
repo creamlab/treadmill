@@ -20,11 +20,6 @@ class SoundPlayer:
 
 	def play_audio_callback(self,in_data, frame_count, time_info,status):
 		data = self.wf.readframes(frame_count) #read maximum frame_count frames
-		# with open(self.planning_file, 'a') as file :
-		# 		writer = csv.writer(file,lineterminator='\n')
-		# 		writer.writerow([self.time_sleep*self.callback_counter]+[str(self.list_of_sounds[self.callback_counter])])
-		# 		# writer.writerow(self.list_of_sounds[self.callback_counter])
-		# self.callback_counter+=1
 		return (data, pyaudio.paContinue)
 
 
