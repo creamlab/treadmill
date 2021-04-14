@@ -31,8 +31,7 @@ class NIReader:
 			buffer_time = self.current_time + self.buffer_in_size*self.callback_counter*1000/self.sampling_freq_in # start time of the ith buffer, in ms
 				
 			# write in file
-			result_file = "data/treadmill_"+self.participant+'_'+str(self.date)+".csv"
-			with open(result_file, 'a') as file :
+			with open(self.result_file, 'a') as file :
 				writer = csv.writer(file,lineterminator='\n')
 				for n_sample in range(num_samples):
 					time_in_buffer = n_sample*1000/self.sampling_freq_in # time offset of the n_sample sample in current buffer
@@ -45,9 +44,8 @@ class NIReader:
 
 		return 0  
 
-	def start_acquisition(self):
+	def start_acquisition(self,start_time):
 		
-		time_start=time.time()
 		# Configure and setup the tasks
 		self.task_in = nidaqmx.Task()
 		self.task_in.ai_channels.add_ai_voltage_chan(self.dev)  # has to match with chans_in
@@ -58,9 +56,15 @@ class NIReader:
 		self.task_in.register_every_n_samples_acquired_into_buffer_event(self.buffer_in_size,
 																 self.reading_task_callback)
 
+		self.result_file="data/treadmill_"+self.participant+'_'+str(self.date)+".csv"
+		with open(self.result_file, 'a') as file :
+				writer = csv.writer(file,lineterminator='\n')
+				header = [' time ',' x_left ',' y_left ',' z_left ',' x_right ',' y_right ',' z_right ']
+				writer.writerow(header)
+
 		print("Acquisition starting")
 		self.running = True
-		self.current_time=time.time()-time_start
+		self.current_time=time.time()-start_time
 		self.callback_counter = 0
 		self.task_in.start()
 
