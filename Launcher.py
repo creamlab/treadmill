@@ -1,4 +1,5 @@
 import ni_reader as ni
+import sound_player as so
 from datetime import datetime
 import time
 import tkinter as tk
@@ -21,9 +22,13 @@ button_Stop.pack()
 
 # NI GUI methods
 ni_reader=ni.NIReader(date)
+sound_player=so.SoundPlayer(date)
 def start():
+	time_start=time.time()
 	ni_reader.set_participant(text_field.get())
-	ni_reader.start_acquisition()
+	sound_player.set_participant(text_field.get())
+	ni_reader.start_acquisition(time_start)
+	sound_player.start_playing(time_start)
 
 def stop():
 	ni_reader.stop_acquisition()
