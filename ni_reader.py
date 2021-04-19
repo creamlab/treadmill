@@ -5,15 +5,20 @@ from datetime import datetime
 import nidaqmx
 from nidaqmx.stream_readers import AnalogMultiChannelReader
 from nidaqmx import constants
+import pickle
+import os
 
 class NIReader:
-	def __init__(self,date):
-		self.sampling_freq_in = 1000  # in Hz
-		self.buffer_in_size = 100 # samples
-		self.chans_in = 6  
-		self.running=False
-		self.date=date
-		self.dev="dev1/ai0:5"
+	def __init__(self,date,config_file): 
+		self.parameters = {}
+		exec(open(config_file).read(),self.parameters)
+		pars=self.parameters['params']
+		self.sampling_freq_in = pars['sampling_freq_in']  # in Hz
+		self.buffer_in_size = pars['buffer_in_size'] # samples
+		self.chans_in = pars['chans_in']  
+		self.running = pars['running']
+		self.date = date
+		self.dev = pars['dev']
 		self.participant = 'unknown'
 
 	def set_participant(self, participant): 
