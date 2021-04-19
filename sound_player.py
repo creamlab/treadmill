@@ -36,8 +36,7 @@ class SoundPlayer(threading.Thread):
 	
 	def run(self):
 
-		self.planning_file="data/treadmill_"+self.participant
-					+'_'+str(self.date)+"_sound.csv"
+		self.planning_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_sound.csv"
 		with open(self.planning_file, 'a') as file :
 				writer = csv.writer(file,lineterminator='\n')
 				header = ['time','sound_played']
@@ -64,6 +63,7 @@ class SoundPlayer(threading.Thread):
 				time.sleep(self.polling_time) # note: in multithread, this may not work (stops the thread)
 			output_stream.stop_stream()
 			output_stream.close()
+			audio.terminate()
 			time.sleep(self.isi)
 
 
