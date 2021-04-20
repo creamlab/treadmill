@@ -22,8 +22,8 @@ button_Stop = tk.Button(text="Stop",width=25,height=5,)
 button_Stop.pack()
 
 # NI GUI methods
-# ni_reader=ni.NIReader(date,'config/config_nireader_real.p') # à utiliser sur place
-ni_reader=ni.NIReader(date,'config/config_nireader_simulated.py') #à utiliser pour simulation
+ni_reader=ni.NIReader(date,'config/config_nireader_real.py') # à utiliser sur place
+# ni_reader=ni.NIReader(date,'config/config_nireader_simulated.py') #à utiliser pour simulation
 # sound_player=so.SoundPlayer(date,'config/config_sound_player.py')
 sound_player_frequencies=sop.SoundPlayerFrequencies(date, 'config/config_sound_player_frequencies.py')
 

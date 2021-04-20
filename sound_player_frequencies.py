@@ -24,6 +24,10 @@ class SoundPlayerFrequencies(threading.Thread):
     def set_start_time(self,start_time):
         self.start_time = start_time
 
+    def play_audio_callback(self,in_data, frame_count, time_info,status):  # bufsize_callback is passed to num_samples    
+        out = self.samples[:frame_count]
+        self.samples = self.samples[frame_count:]    
+        return (out, pyaudio.paContinue) 
 
     def run(self):
 
@@ -37,36 +41,39 @@ class SoundPlayerFrequencies(threading.Thread):
         for i in range(0,self.rep_num):
             if self.terminated:
                 break
-            n = random.uniform(self.frequency_minimum_value,
+            self.n = random.uniform(self.frequency_minimum_value,
                 self.frequency_maximum_value)
             p = pyaudio.PyAudio()
 
             volume = 0.5     # range [0.0, 1.0]
             fs = 44100       # CD quality
-            duration = 2.0   # in seconds
-            f = n            # sine frequency, Hz, may be float
+            duration = 0.5   # in seconds
+            f = self.n            # sine frequency, Hz, may be float
             # generate samples, note conversion to float32 array
-            samples = (np.sin(2*np.pi*np.arange(fs*duration)*f/fs)).astype(np.float32)
+            self.samples = (np.sin(2*np.pi*np.arange(fs*duration)*f/fs)).astype(np.float32)
+
 
             # for paFloat32 sample values must be in range [-1.0, 1.0]
             stream = p.open(format=pyaudio.paFloat32,
-                        channels=2,
+                        channels=1,
                         rate=fs,
-                        output=True)
+                        output=True,
+                        stream_callback = self.play_audio_callback)
 
+            stream.start_stream()
             self.current_time=time.time()-self.start_time
             with open(self.planning_file, 'a') as file :
                 writer = csv.writer(file,lineterminator='\n')
                 writer.writerow([self.current_time,
-                    str(n)])    
-
-            # play
-            stream.write(volume*samples)
+                    str(self.n)]) 
+            while stream.is_active():
+                time.sleep(0.1) # note: in multithread, this may not work (stops the thread)
 
             stream.stop_stream()
             stream.close()
 
             p.terminate()
+            time.sleep(0.8-duration)
 
     def stop_playing(self):
         self.terminated = True

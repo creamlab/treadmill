@@ -1,4 +1,4 @@
-params = { 'rep_num' : 20,
-	'frequency minimum value (in Hz):' : 10,
-	'frequency maximum value (in Hz):' : 1000,
+params = { 'rep_num' : 50,
+	'frequency minimum value (in Hz):' : 200,
+	'frequency maximum value (in Hz):' : 800,
 }

@@ -64,7 +64,7 @@ class NIReader:
 		self.result_file="data/treadmill_"+self.participant+'_'+str(self.date)+".csv"
 		with open(self.result_file, 'a') as file :
 				writer = csv.writer(file,lineterminator='\n')
-				header = [' time ',' x_left ',' y_left ',' z_left ',' x_right ',' y_right ',' z_right ']
+				header = ['time','x_left','y_left','z_left','x_right','y_right','z_right']
 				writer.writerow(header)
 
 		print("Acquisition starting")
