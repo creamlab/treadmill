@@ -4,8 +4,12 @@ __pycache__/
 *$py.class
 
 # Sound files
-*.wav
-*.aiff
+sounds/*
+!sounds/.gitkeep 
+
+# data files
+data/* 
+!data/.gitkeep 
 
 # C extensions
 *.so
