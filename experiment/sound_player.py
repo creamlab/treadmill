@@ -11,28 +11,26 @@ import numpy as np
 class SoundPlayer(threading.Thread):
 	def __init__(self,date,config_file):
 		threading.Thread.__init__(self)
-		self.parameters={}
-		self.config_file = config_file
+		
 		self.terminated = False 
 		self.date = date
-		exec(open(self.config_file).read(),self.parameters)
-		pars = self.parameters['params']
-		if self.config_file == 'config/config_sound_player.py':
-			self.n_repeats = pars['n_repeats']
-			liste_sons=os.listdir("sounds/piano/")
-			self.list_of_sounds = pars['list_of_sounds']
-			index_min = liste_sons.index(self.list_of_sounds[0])
-			index_max = liste_sons.index(self.list_of_sounds[1])
-			self.list_of_sounds_between = liste_sons[index_min:index_max]*self.n_repeats
-			self.isi = pars['isi']
-			self.polling_time = pars['polling_time']
-			
-			random.shuffle(self.list_of_sounds_between)
-			print(self.list_of_sounds_between)
-		elif self.config_file == 'config/config_sound_player_frequencies.py':
-			self.rep_num = pars['rep_num']
-			self.frequency_minimum_value = pars['frequency minimum value (in Hz):']
-			self.frequency_maximum_value = pars['frequency maximum value (in Hz):']
+		
+		# read parameters in config files	
+		parameters={}
+		exec(open(config_file).read(),parameters)
+		pars = parameters['params']
+		n_repeats = pars['n_repeats']
+		self.isi = pars['isi']
+		self.polling_time = pars['polling_time']
+		
+		# create sound list
+		sound_list =os.listdir("piano/")
+		sound_bounds = pars['list_of_sounds']
+		index_min = sound_list.index(sound_bounds[0])
+		index_max = sound_list.index(sound_bounds[1])
+		self.sound_list = sound_list[index_min:index_max]*n_repeats
+		random.shuffle(self.sound_list)
+		print(self.sound_list)
 
 
 	def set_participant(self, participant): 
@@ -43,102 +41,72 @@ class SoundPlayer(threading.Thread):
 
 
 	def play_audio_callback(self,in_data, frame_count, time_info,status):
-		if self.config_file == 'config/config_sound_player.py':
-			data = self.wf.readframes(frame_count) #read maximum frame_count frames
-			return (data, pyaudio.paContinue)
-		elif self.config_file == 'config/config_sound_player_frequencies.py':
-			out = self.samples[:frame_count]
-			self.samples = self.samples[frame_count:]
-			return (out, pyaudio.paContinue)
+		if self.terminated:
+			self.output_stream.stop_stream()
+			self.output_stream.close()
+			self.output_stream.terminate()
+			print("a")
+			return None
+		if self.numero_du_son_en_cours < len(self.sound_list)-1:
+				
+			self.data=self.wf.readframes(frame_count)
+			if time.time()-self.current_time > self.isi:
+				self.numero_du_son_en_cours+=1
+				print(self.sound_list[self.numero_du_son_en_cours])
+				self.wf= wave.open("piano/"+self.sound_list[self.numero_du_son_en_cours])
+				data2=self.wf.readframes(frame_count)
+				decodeddata1 = np.fromstring(self.data, np.int16)
+				decodeddata2 = np.fromstring(data2, np.int16)
+				self.data = (decodeddata1 * 0.5 + decodeddata2 * 0.5).astype(np.int16)
+				self.current_time=time.time()
+				with open(self.planning_file, 'a') as file :
+					writer = csv.writer(file,lineterminator='\n')
+					writer.writerow([time.time()-self.start_time,
+						self.sound_list[self.numero_du_son_en_cours]])
 
+		return (self.data, pyaudio.paContinue)
+	
 	
 	def run(self):
-		if self.config_file == 'config/config_sound_player.py':
-			self.planning_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_sound.csv"
-			with open(self.planning_file, 'a') as file :
-					writer = csv.writer(file,lineterminator='\n')
-					header = ['time','sound_played']
-					writer.writerow(header)
+		
+		# Prepare csv for logging times  
+		self.planning_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_sound.csv"
+		with open(self.planning_file, 'a') as file :
+				writer = csv.writer(file,lineterminator='\n')
+				header = ['time','sound_played']
+				writer.writerow(header)
 
-			for trial_id, sound_file in enumerate(self.list_of_sounds_between):
-				if self.terminated :
-					break
-				audio = pyaudio.PyAudio()
-				self.wf = wave.open("sounds/piano/"+sound_file)
-				print (self.list_of_sounds_between[trial_id])
-				output_stream = audio.open(format = audio.get_format_from_width(self.wf.getsampwidth()),
-							channels = self.wf.getnchannels(),
-							rate = self.wf.getframerate(),
-							output = True, 
-							stream_callback = self.play_audio_callback)
-				self.current_time=time.time()-self.start_time
-				output_stream.start_stream()
-				with open(self.planning_file, 'a') as file :
-					writer = csv.writer(file,lineterminator='\n')
-					writer.writerow([self.current_time,
-						sound_file])
-				while output_stream.is_active():
-					time.sleep(self.polling_time) # note: in multithread, this may not work (stops the thread)
-				output_stream.stop_stream()
-				output_stream.close()
-				audio.terminate()
-				time.sleep(self.isi)
-				
-		elif self.config_file == 'config/config_sound_player_frequencies.py':
-			self.planning_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_sound_from_frequencies.csv"
-			#Generating random frequencies between given limits and storing them in the file
+		
+		self.start_time=time.time()
+		self.current_time=time.time()
+
+
+		# Create and start audio thread	
+		audio = pyaudio.PyAudio()		
+		self.wf= wave.open("piano/"+self.sound_list[0]) # BUG IF SOUND LIST IS EMPTY
+		self.output_stream = audio.open(format = audio.get_format_from_width(self.wf.getsampwidth()),
+						channels = self.wf.getnchannels(),
+						rate = self.wf.getframerate(),
+						output = True, 
+						stream_callback = self.play_audio_callback)
+		#print(self.sound_list[self.numero_du_son_en_cours])
+		self.output_stream.start_stream()
+
+
+		# Put files in queue
+		self.numero_du_son_en_cours=0
+		self.currently_playing = []
+		for file in sound_list: 
+			currently_playing.append(wave.open("piano/"+file))
 			with open(self.planning_file, 'a') as file :
 				writer = csv.writer(file,lineterminator='\n')
-				writer.writerow(['time',
-						'frequency']) 
+				writer.writerow([time.time()-self.start_time,
+								file])
+		
+			time.sleep(self.isi)
 
-			for i in range(0,self.rep_num):
-				if self.terminated:
-					break
-				self.n = random.uniform(self.frequency_minimum_value,
-					self.frequency_maximum_value)
-				p = pyaudio.PyAudio()
+			
 
-				volume = 0.5     # range [0.0, 1.0]
-				fs = 44100       # CD quality
-				duration = 0.5   # in seconds
-				f = self.n            # sine frequency, Hz, may be float
-				# generate samples, note conversion to float32 array
-				self.samples = (np.sin(2*np.pi*np.arange(fs*duration)*f/fs)).astype(np.float32)
-
-
-				# for paFloat32 sample values must be in range [-1.0, 1.0]
-				stream = p.open(format=pyaudio.paFloat32,
-							channels=1,
-							rate=fs,
-							output=True,
-							stream_callback = self.play_audio_callback)
-
-				stream.start_stream()
-				self.current_time=time.time()-self.start_time
-				with open(self.planning_file, 'a') as file :
-					writer = csv.writer(file,lineterminator='\n')
-					writer.writerow([self.current_time,
-						str(self.n)]) 
-				while stream.is_active():
-					time.sleep(0.1) # note: in multithread, this may not work (stops the thread)
-
-				stream.stop_stream()
-				stream.close()
-
-				p.terminate()
-				time.sleep(0.8-duration)
 
 	def stop_playing(self):
 		self.terminated = True
-
-
-
-
-
-
-
-
-
-
-
