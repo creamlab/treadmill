@@ -7,6 +7,7 @@ import pickle
 import threading
 import os
 import numpy as np
+import struct
 
 class SoundPlayer(threading.Thread):
 	def __init__(self,date,config_file):
@@ -24,11 +25,11 @@ class SoundPlayer(threading.Thread):
 		self.polling_time = pars['polling_time']
 		
 		# create sound list
-		sound_list =os.listdir("piano/")
+		sound_list =os.listdir("sounds/piano/")
 		sound_bounds = pars['list_of_sounds']
 		index_min = sound_list.index(sound_bounds[0])
 		index_max = sound_list.index(sound_bounds[1])
-		self.sound_list = sound_list[index_min:index_max]*n_repeats
+		self.sound_list = sound_list[index_min:index_max+1]*n_repeats
 		random.shuffle(self.sound_list)
 		print(self.sound_list)
 
@@ -41,30 +42,53 @@ class SoundPlayer(threading.Thread):
 
 
 	def play_audio_callback(self,in_data, frame_count, time_info,status):
-		if self.terminated:
-			self.output_stream.stop_stream()
-			self.output_stream.close()
-			self.output_stream.terminate()
-			print("a")
-			return None
-		if self.numero_du_son_en_cours < len(self.sound_list)-1:
-				
-			self.data=self.wf.readframes(frame_count)
-			if time.time()-self.current_time > self.isi:
-				self.numero_du_son_en_cours+=1
-				print(self.sound_list[self.numero_du_son_en_cours])
-				self.wf= wave.open("piano/"+self.sound_list[self.numero_du_son_en_cours])
-				data2=self.wf.readframes(frame_count)
-				decodeddata1 = np.fromstring(self.data, np.int16)
-				decodeddata2 = np.fromstring(data2, np.int16)
-				self.data = (decodeddata1 * 0.5 + decodeddata2 * 0.5).astype(np.int16)
-				self.current_time=time.time()
-				with open(self.planning_file, 'a') as file :
-					writer = csv.writer(file,lineterminator='\n')
-					writer.writerow([time.time()-self.start_time,
-						self.sound_list[self.numero_du_son_en_cours]])
+		
+		# read frames from all files currently playing
+		compteur=0
+		data = np.zeros(frame_count).astype(np.int16)
 
-		return (self.data, pyaudio.paContinue)
+		for index,file in enumerate(self.currently_playing):
+			
+			# termination condition
+			if self.terminated==True:
+				self.output_stream.stop_stream()
+				self.output_stream.close()
+				self.output_stream.terminate()
+				break
+
+			# read frames
+			compteur+=1
+			read_frame = file.readframes(frame_count)
+			current_data=np.fromstring(read_frame,np.int16)
+
+			# Uptade of 'compteur' for the late multiplication
+			if current_data.size == 0:
+				compteur-=1
+
+			# selection of only the non finished files left to play
+			else :
+				self.data_added=current_data
+
+				# cases where sizes differ from file to file
+				if self.data_added.size>data.size:
+					rest = self.data_added.size-data.size
+					for index in range(rest):
+						data = np.append(data,0)
+
+				if self.data_added.size<data.size:
+					rest = data.size-self.data_added.size
+					for index in range(rest):
+						self.data_added = np.append(self.data_added,0)
+				
+				# overlap to buffer
+				data += self.data_added
+
+		print ('compteur ' + str(compteur))
+
+		# multiplication to prevent the coded data to produce overflow error
+		data = (data/compteur).astype(np.int16)
+
+		return (data.tostring(), pyaudio.paContinue)
 	
 	
 	def run(self):
@@ -83,12 +107,14 @@ class SoundPlayer(threading.Thread):
 
 		# Create and start audio thread	
 		audio = pyaudio.PyAudio()		
-		self.wf= wave.open("piano/"+self.sound_list[0]) # BUG IF SOUND LIST IS EMPTY
+		self.wf= wave.open("sounds/piano/"+self.sound_list[0]) # BUG IF SOUND LIST IS EMPTY
+
 		self.output_stream = audio.open(format = audio.get_format_from_width(self.wf.getsampwidth()),
 						channels = self.wf.getnchannels(),
 						rate = self.wf.getframerate(),
 						output = True, 
 						stream_callback = self.play_audio_callback)
+
 		#print(self.sound_list[self.numero_du_son_en_cours])
 		self.output_stream.start_stream()
 
@@ -96,16 +122,14 @@ class SoundPlayer(threading.Thread):
 		# Put files in queue
 		self.numero_du_son_en_cours=0
 		self.currently_playing = []
-		for file in sound_list: 
-			currently_playing.append(wave.open("piano/"+file))
-			with open(self.planning_file, 'a') as file :
-				writer = csv.writer(file,lineterminator='\n')
+		for file in self.sound_list: 
+			self.currently_playing.append(wave.open("sounds/piano/"+file))
+			with open(self.planning_file, 'a') as data_file :
+				writer = csv.writer(data_file,lineterminator='\n')
 				writer.writerow([time.time()-self.start_time,
 								file])
 		
 			time.sleep(self.isi)
-
-			
 
 
 	def stop_playing(self):
