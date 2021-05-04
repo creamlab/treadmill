@@ -22,7 +22,6 @@ class SoundPlayer(threading.Thread):
 		pars = parameters['params']
 		n_repeats = pars['n_repeats']
 		self.isi = pars['isi']
-		self.polling_time = pars['polling_time']
 		
 		# create sound list
 		sound_list =os.listdir("sounds/piano/")
@@ -45,6 +44,7 @@ class SoundPlayer(threading.Thread):
 		
 		# read frames from all files currently playing
 		compteur=0
+		delete_list = []
 		data = np.zeros(frame_count).astype(np.int16)
 
 		for index,file in enumerate(self.currently_playing):
@@ -60,9 +60,10 @@ class SoundPlayer(threading.Thread):
 			compteur+=1
 			read_frame = file.readframes(frame_count)
 			current_data=np.fromstring(read_frame,np.int16)
-
+			
 			# Uptade of 'compteur' for the late multiplication
 			if current_data.size == 0:
+				delete_list.append(index)
 				compteur-=1
 
 			# selection of only the non finished files left to play
@@ -83,10 +84,13 @@ class SoundPlayer(threading.Thread):
 				# overlap to buffer
 				data += self.data_added
 
+		for index in delete_list :
+			del self.currently_playing[index]
+
 		print ('compteur ' + str(compteur))
 
 		# multiplication to prevent the coded data to produce overflow error
-		data = (data/compteur).astype(np.int16)
+		data = (data).astype(np.int16)
 
 		return (data.tostring(), pyaudio.paContinue)
 	
@@ -115,12 +119,10 @@ class SoundPlayer(threading.Thread):
 						output = True, 
 						stream_callback = self.play_audio_callback)
 
-		#print(self.sound_list[self.numero_du_son_en_cours])
 		self.output_stream.start_stream()
 
 
 		# Put files in queue
-		self.numero_du_son_en_cours=0
 		self.currently_playing = []
 		for file in self.sound_list: 
 			self.currently_playing.append(wave.open("sounds/piano/"+file))
@@ -128,7 +130,7 @@ class SoundPlayer(threading.Thread):
 				writer = csv.writer(data_file,lineterminator='\n')
 				writer.writerow([time.time()-self.start_time,
 								file])
-		
+			
 			time.sleep(self.isi)
 
 
