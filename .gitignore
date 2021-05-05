@@ -4,12 +4,12 @@ __pycache__/
 *$py.class
 
 # Sound files
-sounds/*
-!sounds/.gitkeep 
+experiment/sounds/*
+!experiment/sounds/.gitkeep 
 
 # data files
-data/* 
-!data/.gitkeep 
+experiment/data/* 
+!experiment/data/.gitkeep 
 
 # C extensions
 *.so
