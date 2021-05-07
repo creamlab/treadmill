@@ -52,14 +52,6 @@ class SoundPlayer(threading.Thread):
 		data = np.zeros(frame_count*2).astype(np.int16)
 
 		for index,file in enumerate(self.currently_playing):
-			
-			# termination condition
-			if self.terminated==True:
-				self.output_stream.stop_stream()
-				self.output_stream.close()
-				self.output_stream.terminate()
-				break
-
 			# read frames
 			compteur+=1
 			read_frame = file.readframes(frame_count)
@@ -129,6 +121,12 @@ class SoundPlayer(threading.Thread):
 		# Put files in queue
 		self.currently_playing = []
 		for file in self.sound_list: 
+			
+			if self.terminated==True:
+				self.output_stream.stop_stream()
+				self.output_stream.close()
+				audio.terminate()
+				break
 			# put file in queue
 			self.currently_playing.append(wave.open("sounds/"+file))
 			# retrieve metadata for file
