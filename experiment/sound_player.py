@@ -22,6 +22,7 @@ class SoundPlayer(threading.Thread):
 		exec(open(config_file).read(),parameters)
 		pars = parameters['params']
 		self.period = pars['period']
+		n_repeats= pars['n_repeats']
 		
 		# create sound list 
 		# filter sounds from dataset
@@ -33,6 +34,8 @@ class SoundPlayer(threading.Thread):
 		n_trials = pars['n_trials']
 		sound_list = sound_list * int(np.ceil(n_trials/n_sounds)) # if less sounds than trials, duplicate
 		random.shuffle(sound_list)
+		sound_list = np.repeat(sound_list,n_repeats)
+		print (sound_list)
 		self.sound_list = sound_list[:n_trials]
 
 
@@ -121,7 +124,7 @@ class SoundPlayer(threading.Thread):
 		# Put files in queue
 		self.currently_playing = []
 		for file in self.sound_list: 
-			
+
 			if self.terminated==True:
 				self.output_stream.stop_stream()
 				self.output_stream.close()
