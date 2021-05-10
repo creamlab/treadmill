@@ -1,4 +1,8 @@
-params = { 'n_repeats' : 5,
-	'list_of_sounds' : ['TPianoffA5.wav','TPianoffAb7.wav'],
-	'isi' : 0.8
+params = { 'n_trials' : 1500,
+	'sound_list' : 'sounds/list.csv',
+	'octaves': [1,2,3,4,5,6], # 0..8
+	'types': ['original'], # original or transformed
+	'dynamics' : ['mf'],
+	'period' : 0.8,
+	'n_repeats' : 3,
 }
