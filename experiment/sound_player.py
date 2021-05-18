@@ -52,7 +52,7 @@ class SoundPlayer(threading.Thread):
 		# read frames from all files currently playing
 		compteur=0
 		delete_list = []
-		data = np.zeros(frame_count*2).astype(np.int16)
+		data = np.zeros(frame_count).astype(np.int16)
 
 		for index,file in enumerate(self.currently_playing):
 			# read frames
