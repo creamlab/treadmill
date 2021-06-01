@@ -65,8 +65,8 @@ class WEIGHTReader:
 		self.result_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_weight.csv"
 		with open(self.result_file, 'a') as file :
 				writer = csv.writer(file,lineterminator='\n')
-				side = str(self.side)
-				writer.writerow(side)
+				side = self.side
+				writer.writerow([side])
 				header = ['time','x_left','y_left','z_left','x_right','y_right','z_right']
 				writer.writerow(header)
 
