@@ -19,10 +19,12 @@ class SoundPlayer(threading.Thread):
 		
 		# read parameters in config files	
 		parameters={}
+		self.config_file = config_file
 		exec(open(config_file).read(),parameters)
 		pars = parameters['params']
 		self.period = pars['period']
-		n_repeats= pars['n_repeats']
+		self.condition_name = pars['condition_name']
+		self.n_repeats= pars['n_repeats']
 		
 		# create sound list 
 		# filter sounds from dataset
@@ -34,7 +36,7 @@ class SoundPlayer(threading.Thread):
 		n_trials = pars['n_trials']
 		sound_list = sound_list * int(np.ceil(n_trials/n_sounds)) # if less sounds than trials, duplicate
 		random.shuffle(sound_list)
-		sound_list = np.repeat(sound_list,n_repeats)
+		sound_list = np.repeat(sound_list,self.n_repeats)
 		print (sound_list)
 		self.sound_list = sound_list[:n_trials]
 
@@ -46,6 +48,14 @@ class SoundPlayer(threading.Thread):
 	def set_start_time(self,start_time):
 		self.start_time = start_time
 
+	def get_config_file(self):
+		return self.config_file
+
+	def set_header(self,header):
+		self.header = header
+
+	def set_order(self,order):
+		self.order = order
 
 	def play_audio_callback(self,in_data, frame_count, time_info,status):
 		
@@ -97,11 +107,12 @@ class SoundPlayer(threading.Thread):
 	def run(self):
 		
 		# Prepare csv for logging times  
-		self.planning_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_sound.csv"
-		with open(self.planning_file, 'a') as file :
-				writer = csv.writer(file,lineterminator='\n')
-				header = ['time','sound_played','origin', 'note', 'octave', 'dynamics', 'pitch','shift']
-				writer.writerow(header)
+		self.planning_file="data/treadmill_participant_"+self.participant+"_order_"+str(self.order)+'_'+str(self.date)+"_sound.csv"
+		if self.header :
+			with open(self.planning_file, 'a') as file :
+					writer = csv.writer(file,lineterminator='\n')
+					header = ['time','sound_played','origin', 'note', 'octave', 'dynamics', 'pitch','shift','participant','config_file','order','condition_name']
+					writer.writerow(header)
 
 		
 		self.start_time=time.time()
@@ -138,7 +149,7 @@ class SoundPlayer(threading.Thread):
 			with open(self.planning_file, 'a') as data_file :
 				writer = csv.writer(data_file,lineterminator='\n')
 				writer.writerow([time.time()-self.start_time,
-								file, origin, note, octave, dynamics, pitch,shift])
+								file, origin, note, octave, dynamics, pitch,shift,self.participant,self.config_file,self.order,self.condition_name+'_'+str(self.n_repeats)])
 			
 			time.sleep(self.period)
 

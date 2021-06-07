@@ -24,6 +24,9 @@ class NIReader:
 	def set_participant(self, participant): 
 		self.participant = participant
 
+	def get_participant(self): 
+		return self.participant
+
 	def reading_task_callback(self,task_idx, event_type, num_samples, callback_data):  # bufsize_callback is passed to num_samples
 		
 		if self.running:
@@ -43,15 +46,23 @@ class NIReader:
 					result = [buffer_time + time_in_buffer] # time stamp of current sample
 					for channel_buffer in buffer_in: 
 						result += [channel_buffer[n_sample]] # each channel of the current sample
-					writer.writerow(result)
+					writer.writerow(result + [self.participant,self.file,self.order,self.condition_name+'_'+str(self.repeat)])
 
 			self.callback_counter+=1
 
 		return 0  
 
-	def start_acquisition(self,start_time):
+	def start_acquisition(self,start_time,participant,file,order):
 		
 		# Configure and setup the tasks
+		self.set_participant(participant)
+		self.file = file
+		parameters = {}
+		exec(open(file).read(),parameters)
+		pars=parameters['params']
+		self.condition_name = pars['condition_name']
+		self.repeat = pars['n_repeats']
+		self.order = order
 		self.task_in = nidaqmx.Task()
 		self.task_in.ai_channels.add_ai_voltage_chan(self.dev)  # has to match with chans_in
 		self.task_in.timing.cfg_samp_clk_timing(rate=self.sampling_freq_in, 
@@ -61,10 +72,10 @@ class NIReader:
 		self.task_in.register_every_n_samples_acquired_into_buffer_event(self.buffer_in_size,
 																 self.reading_task_callback)
 
-		self.result_file="data/treadmill_"+self.participant+'_'+str(self.date)+".csv"
+		self.result_file="data/treadmill_participant_"+self.participant+"_order_"+str(self.order)+'_'+str(self.date)+".csv"
 		with open(self.result_file, 'a') as file :
 				writer = csv.writer(file,lineterminator='\n')
-				header = ['time','x_left','y_left','z_left','x_right','y_right','z_right']
+				header = ['time','x_left','y_left','z_left','x_right','y_right','z_right','participant','config_file','order','condition_name']
 				writer.writerow(header)
 
 		print("Acquisition starting")
