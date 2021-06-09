@@ -40,7 +40,7 @@ class SoundPlayer(threading.Thread):
 		# create a list with pitchs and files
 		for file in sound_list: 
 
-			pitch = int(self.sounds_df[self.sounds_df.file==file][['pitch']].iloc[0])
+			pitch = float(self.sounds_df[self.sounds_df.file==file][['pitch']].iloc[0])
 
 			# find max and min pitchs to redo the random choice if the sound is not in the interval
 			if pitch > max_pitch:
@@ -62,8 +62,8 @@ class SoundPlayer(threading.Thread):
 			next_pitch = random_pitch*2**(semitone/12)
 
 			# redo the random choice if it isn't in the interval
-			if next_pitch > max_pitch + 20 or next_pitch < min_pitch - 20:
-				while next_pitch > max_pitch + 20 or next_pitch < min_pitch - 20:
+			if next_pitch > max_pitch or next_pitch < min_pitch :
+				while next_pitch > max_pitch or next_pitch < min_pitch :
 					semitone = random.randint(-12*n_octaves,12*n_octaves)
 					next_pitch = random_pitch*2**(semitone/12)
 
@@ -99,6 +99,12 @@ class SoundPlayer(threading.Thread):
 
 	def get_config_file(self):
 		return self.config_file
+
+	def set_config_order(self,config):
+		self.config = config
+
+	def get_config_order(self):
+		return self.config
 
 	def set_header(self,header):
 		self.header = header
@@ -197,7 +203,7 @@ class SoundPlayer(threading.Thread):
 			with open(self.planning_file, 'a') as data_file :
 				writer = csv.writer(data_file,lineterminator='\n')
 				writer.writerow([time.time()-self.start_time,
-								file, origin, note, octave, dynamics, pitch,shift,self.participant,self.config_file,self.order,self.condition_name+'_'+str(self.n_repeats)])
+								file, origin, note, octave, dynamics, pitch,shift,self.participant,self.config,self.order,self.condition_name+'_'+str(self.n_repeats)])
 			
 			time.sleep(self.period)
 

@@ -1,5 +1,5 @@
 import ni_reader as ni
-import sound_player as so
+import sound_player_semitone as so
 from datetime import datetime
 import time
 import tkinter as tk
@@ -64,6 +64,7 @@ metronome=m.Metronome('config/config_metronome.py')
 ni_reader=ni.NIReader(date,'config/config_nireader_simulated.py') #à utiliser pour simulation
 weight_reader_left=wei.WEIGHTReader(date,'config/config_nireader_simulated.py','left',True) #à utiliser pour simulation
 weight_reader_right=wei.WEIGHTReader(date,'config/config_nireader_simulated.py','right',False) #à utiliser pour simulation
+
 sound_player_cont_narrow=so.SoundPlayer(date,'config/config_sound_player_cont_narrow.py')
 sound_player_cont_narrow_repeat=so.SoundPlayer(date,'config/config_sound_player_cont_narrow_repeat.py')
 sound_player_discret_large=so.SoundPlayer(date,'config/config_sound_player_discret_large.py')
@@ -104,10 +105,11 @@ def start_1():
 	metronome.stop_playing()
 	time_start=time.time()
 	file = config_list[0].get_config_file()
-	cf.copy_file(file,text_field.get())
+	config = cf.copy_file(file,text_field.get(),1,date)
+	config_list[0].set_config_order(config)
 	ni_reader.set_participant(text_field.get())
+	ni_reader.set_config_order(config)
 	config_list[0].set_participant(text_field.get())
-	config_list[0].set_header(True)
 	config_list[0].set_order(1)
 	ni_reader.start_acquisition(time_start,ni_reader.get_participant(),file,1)
 	config_list[0].set_start_time(time_start)
@@ -118,10 +120,11 @@ def start_2():
 	metronome.stop_playing()
 	time_start=time.time()
 	file = config_list[1].get_config_file()
-	cf.copy_file(file,text_field.get())
+	config = cf.copy_file(file,text_field.get(),2,date)
+	config_list[1].set_config_order(config)
 	ni_reader.set_participant(text_field.get())
+	ni_reader.set_config_order(config)
 	config_list[1].set_participant(text_field.get())
-	config_list[1].set_header(False)
 	config_list[1].set_order(2)
 	ni_reader.start_acquisition(time_start,ni_reader.get_participant(),file,2)
 	config_list[1].set_start_time(time_start)
@@ -132,10 +135,11 @@ def start_3():
 	metronome.stop_playing()
 	time_start=time.time()
 	file = config_list[2].get_config_file()
-	cf.copy_file(file,text_field.get())
+	config = cf.copy_file(file,text_field.get(),3,date)
+	config_list[2].set_config_order(config)
 	ni_reader.set_participant(text_field.get())
+	ni_reader.set_config_order(config)
 	config_list[2].set_participant(text_field.get())
-	config_list[2].set_header(False)
 	config_list[2].set_order(3)
 	ni_reader.start_acquisition(time_start,ni_reader.get_participant(),file,3)
 	config_list[2].set_start_time(time_start)
@@ -146,10 +150,11 @@ def start_4():
 	metronome.stop_playing()
 	time_start=time.time()
 	file = config_list[3].get_config_file()
-	cf.copy_file(file,text_field.get())
+	config = cf.copy_file(file,text_field.get(),4,date)
+	config_list[3].set_config_order(config)
 	ni_reader.set_participant(text_field.get())
+	ni_reader.set_config_order(config)
 	config_list[3].set_participant(text_field.get())
-	config_list[3].set_header(False)
 	config_list[3].set_order(4)
 	ni_reader.start_acquisition(time_start,ni_reader.get_participant(),file,4)
 	config_list[3].set_start_time(time_start)

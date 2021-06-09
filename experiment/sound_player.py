@@ -51,6 +51,12 @@ class SoundPlayer(threading.Thread):
 	def get_config_file(self):
 		return self.config_file
 
+	def set_config_order(self,config):
+		self.config = config
+
+	def get_config_order(self):
+		return self.config
+
 	def set_header(self,header):
 		self.header = header
 
@@ -149,7 +155,7 @@ class SoundPlayer(threading.Thread):
 			with open(self.planning_file, 'a') as data_file :
 				writer = csv.writer(data_file,lineterminator='\n')
 				writer.writerow([time.time()-self.start_time,
-								file, origin, note, octave, dynamics, pitch,shift,self.participant,self.config_file,self.order,self.condition_name+'_'+str(self.n_repeats)])
+								file, origin, note, octave, dynamics, pitch,shift,self.participant,self.config,self.order,self.condition_name+'_'+str(self.n_repeats)])
 			
 			time.sleep(self.period)
 

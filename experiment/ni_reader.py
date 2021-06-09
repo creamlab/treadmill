@@ -27,6 +27,12 @@ class NIReader:
 	def get_participant(self): 
 		return self.participant
 
+	def set_config_order(self,config):
+		self.config = config
+
+	def get_config_order(self):
+		return self.config
+
 	def reading_task_callback(self,task_idx, event_type, num_samples, callback_data):  # bufsize_callback is passed to num_samples
 		
 		if self.running:
@@ -46,7 +52,7 @@ class NIReader:
 					result = [buffer_time + time_in_buffer] # time stamp of current sample
 					for channel_buffer in buffer_in: 
 						result += [channel_buffer[n_sample]] # each channel of the current sample
-					writer.writerow(result + [self.participant,self.file,self.order,self.condition_name+'_'+str(self.repeat)])
+					writer.writerow(result + [self.participant,self.config,self.order,self.condition_name+'_'+str(self.repeat)])
 
 			self.callback_counter+=1
 
