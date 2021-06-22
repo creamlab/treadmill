@@ -1,5 +1,5 @@
 import ni_reader as ni
-import sound_player_semitone as so
+import sound_player as so
 from datetime import datetime
 import time
 import tkinter as tk
@@ -57,13 +57,13 @@ button_Stop_4.grid(row=4,column=3)
 
 # NI GUI methods
 metronome=m.Metronome('config/config_metronome.py')
-# ni_reader=ni.NIReader(date,'config/config_nireader_real.py') # à utiliser sur place
-# weight_reader_left=wei.WEIGHTReader(date,'config/config_nireader_real.py','left',True) # à utiliser sur place
-# weight_reader_right=wei.WEIGHTReader(date,'config/config_nireader_real.py','right',False) # à utiliser sur place
+ni_reader=ni.NIReader(date,'config/config_nireader_real.py') # à utiliser sur place
+weight_reader_left=wei.WEIGHTReader(date,'config/config_nireader_real.py','left',True) # à utiliser sur place
+weight_reader_right=wei.WEIGHTReader(date,'config/config_nireader_real.py','right',False) # à utiliser sur place
 
-ni_reader=ni.NIReader(date,'config/config_nireader_simulated.py') #à utiliser pour simulation
-weight_reader_left=wei.WEIGHTReader(date,'config/config_nireader_simulated.py','left',True) #à utiliser pour simulation
-weight_reader_right=wei.WEIGHTReader(date,'config/config_nireader_simulated.py','right',False) #à utiliser pour simulation
+# ni_reader=ni.NIReader(date,'config/config_nireader_simulated.py') #à utiliser pour simulation
+# weight_reader_left=wei.WEIGHTReader(date,'config/config_nireader_simulated.py','left',True) #à utiliser pour simulation
+# weight_reader_right=wei.WEIGHTReader(date,'config/config_nireader_simulated.py','right',False) #à utiliser pour simulation
 
 sound_player_cont_narrow=so.SoundPlayer(date,'config/config_sound_player_cont_narrow.py')
 sound_player_cont_narrow_repeat=so.SoundPlayer(date,'config/config_sound_player_cont_narrow_repeat.py')

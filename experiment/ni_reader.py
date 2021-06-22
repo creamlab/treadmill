@@ -78,7 +78,7 @@ class NIReader:
 		self.task_in.register_every_n_samples_acquired_into_buffer_event(self.buffer_in_size,
 																 self.reading_task_callback)
 
-		self.result_file="data/treadmill_participant_"+self.participant+"_order_"+str(self.order)+'_'+str(self.date)+".csv"
+		self.result_file="data/treadmill_participant_"+self.participant+"_order_"+str(self.order)+'_'+str(self.date)+"_data.csv"
 		with open(self.result_file, 'a') as file :
 				writer = csv.writer(file,lineterminator='\n')
 				header = ['time','x_left','y_left','z_left','x_right','y_right','z_right','participant','config_file','order','condition_name']

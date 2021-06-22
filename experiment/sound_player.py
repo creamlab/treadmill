@@ -114,8 +114,7 @@ class SoundPlayer(threading.Thread):
 		
 		# Prepare csv for logging times  
 		self.planning_file="data/treadmill_participant_"+self.participant+"_order_"+str(self.order)+'_'+str(self.date)+"_sound.csv"
-		if self.header :
-			with open(self.planning_file, 'a') as file :
+		with open(self.planning_file, 'a') as file :
 					writer = csv.writer(file,lineterminator='\n')
 					header = ['time','sound_played','origin', 'note', 'octave', 'dynamics', 'pitch','shift','participant','config_file','order','condition_name']
 					writer.writerow(header)
