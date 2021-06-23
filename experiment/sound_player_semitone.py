@@ -30,15 +30,64 @@ class SoundPlayer(threading.Thread):
 		# filter sounds from dataset
 		sounds_df = pd.read_csv(pars['sound_list'], index_col=0)
 		self.sounds_df = sounds_df[(sounds_df.octave.isin(pars['octaves'])) & (sounds_df.origin.isin(pars['types']))]
-		# select random n_trials
+		n_octaves = len(pars['octaves'])
 		sound_list = list(self.sounds_df.file)
-		n_sounds = len(sound_list)
-		n_trials = pars['n_trials']
-		sound_list = sound_list * int(np.ceil(n_trials/n_sounds)) # if less sounds than trials, duplicate
-		random.shuffle(sound_list)
-		sound_list = np.repeat(sound_list,self.n_repeats)
-		print (sound_list)
-		self.sound_list = sound_list[:n_trials]
+		list_pitch = []
+
+		max_pitch = 0
+		min_pitch = 1000
+
+		# create a list with pitchs and files
+		for file in sound_list: 
+
+			pitch = float(self.sounds_df[self.sounds_df.file==file][['pitch']].iloc[0])
+
+			# find max and min pitchs to redo the random choice if the sound is not in the interval
+			if pitch > max_pitch:
+				max_pitch = pitch
+			if pitch < min_pitch:
+				min_pitch = pitch
+
+			list_pitch.append([file,pitch])
+
+		# choose the first sound to play
+		first_file = random.choice(list_pitch)
+		self.sound_list = [first_file[0]]
+		random_pitch = first_file[1]
+
+		# random choice of next sounds on semitone interval
+		while len(self.sound_list)<pars['n_trials']/self.n_repeats:
+
+			semitone = random.randint(-12*n_octaves,12*n_octaves)
+			next_pitch = random_pitch*2**(semitone/12)
+
+			# redo the random choice if it isn't in the interval
+			if next_pitch > max_pitch or next_pitch < min_pitch :
+				while next_pitch > max_pitch or next_pitch < min_pitch :
+					semitone = random.randint(-12*n_octaves,12*n_octaves)
+					next_pitch = random_pitch*2**(semitone/12)
+
+			# choose the next sound, the one with the closest pitch to next_pitch
+			next_sound = list_pitch[0]
+			for sound in list_pitch:
+				if abs(sound[1]-next_pitch) < abs(next_sound[1]-next_pitch):
+					next_sound = sound
+
+			random_pitch = next_sound[1]
+			self.sound_list.append(next_sound[0])
+
+		self.sound_list = np.repeat(self.sound_list,self.n_repeats)
+
+
+		# select random n_trials
+		
+		# n_sounds = len(sound_list)
+		# n_trials = pars['n_trials']
+		# sound_list = sound_list * int(np.ceil(n_trials/n_sounds)) # if less sounds than trials, duplicate
+		# random.shuffle(sound_list)
+		# sound_list = np.repeat(sound_list,self.n_repeats)
+		# print (sound_list)
+		# self.sound_list = sound_list[:n_trials]
 
 
 

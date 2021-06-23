@@ -8,9 +8,10 @@ from nidaqmx import constants
 import pickle
 import os
 
-class NIReader:
-	def __init__(self,date,config_file): 
+class WEIGHTReader:
+	def __init__(self,date,config_file,side,header): 
 		self.parameters = {}
+		self.header = header
 		exec(open(config_file).read(),self.parameters)
 		pars=self.parameters['params']
 		self.sampling_freq_in = pars['sampling_freq_in']  # in Hz
@@ -20,18 +21,13 @@ class NIReader:
 		self.date = date
 		self.dev = pars['dev']
 		self.participant = 'unknown'
+		self.side = side
 
-	def set_participant(self, participant): 
+	def set_participant_wei(self, participant): 
 		self.participant = participant
 
-	def get_participant(self): 
+	def get_participant_wei(self): 
 		return self.participant
-
-	def set_config_order(self,config):
-		self.config = config
-
-	def get_config_order(self):
-		return self.config
 
 	def reading_task_callback(self,task_idx, event_type, num_samples, callback_data):  # bufsize_callback is passed to num_samples
 		
@@ -52,24 +48,18 @@ class NIReader:
 					result = [buffer_time + time_in_buffer] # time stamp of current sample
 					for channel_buffer in buffer_in: 
 						result += [channel_buffer[n_sample]] # each channel of the current sample
-					writer.writerow(result + [self.participant,self.config,self.order,self.condition_name+'_'+str(self.repeat)])
+					writer.writerow(result + [self.participant,self.file])
 
 			self.callback_counter+=1
 
 		return 0  
 
-	def start_acquisition(self,start_time,participant,file,order):
+	def start_acquisition_wei(self,start_time,participant,file):
 		
 		# Configure and setup the tasks
-		self.set_participant(participant)
-		self.file = file
-		parameters = {}
-		exec(open(file).read(),parameters)
-		pars=parameters['params']
-		self.condition_name = pars['condition_name']
-		self.repeat = pars['n_repeats']
-		self.order = order
+		self.set_participant_wei(participant)
 		self.task_in = nidaqmx.Task()
+		self.file = file
 		self.task_in.ai_channels.add_ai_voltage_chan(self.dev)  # has to match with chans_in
 		self.task_in.timing.cfg_samp_clk_timing(rate=self.sampling_freq_in, 
 									   sample_mode=constants.AcquisitionType.CONTINUOUS,
@@ -78,20 +68,18 @@ class NIReader:
 		self.task_in.register_every_n_samples_acquired_into_buffer_event(self.buffer_in_size,
 																 self.reading_task_callback)
 
-		self.result_file="data/treadmill_participant_"+self.participant+"_order_"+str(self.order)+'_'+str(self.date)+"_data.csv"
-		with open(self.result_file, 'a') as file :
-				writer = csv.writer(file,lineterminator='\n')
-				header = ['time','x_left','y_left','z_left','x_right','y_right','z_right','participant','config_file','order','condition_name']
-				writer.writerow(header)
+		self.result_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_weight.csv"
+		if self.header :
+			with open(self.result_file, 'a') as file :
+					writer = csv.writer(file,lineterminator='\n')
+					header = ['time','x_left','y_left','z_left','x_right','y_right','z_right','participant','config_file']
+					writer.writerow(header)
 
-		print("Acquisition starting")
 		self.running = True
 		self.current_time=time.time()-start_time
 		self.callback_counter = 0
 		self.task_in.start()
 
-	def stop_acquisition(self):
+	def stop_acquisition_wei(self):
 		self.running = False
 		self.task_in.close()
-		print("Acquisition stopped")
-
