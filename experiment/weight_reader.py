@@ -68,7 +68,7 @@ class WEIGHTReader:
 		self.task_in.register_every_n_samples_acquired_into_buffer_event(self.buffer_in_size,
 																 self.reading_task_callback)
 
-		self.result_file="data/treadmill_"+self.participant+'_'+str(self.date)+"_weight.csv"
+		self.result_file="data/treadmill_participant_"+self.participant+'_'+str(self.date)+"_weight.csv"
 		if self.header :
 			with open(self.result_file, 'a') as file :
 					writer = csv.writer(file,lineterminator='\n')
