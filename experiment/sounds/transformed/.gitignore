@@ -1,0 +1,3 @@
+# ignore sounds in experiment folder 
+*
+!.gitignore
